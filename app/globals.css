@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+}
+
+@theme {
+  /* Nền tối ánh tím */
+  --color-ink-950: #0b0714;
+  --color-ink-900: #120b20;
+  --color-ink-800: #1a112d;
+  --color-ink-700: #251a3d;
+
+  /* Tím Amethyst – tông chủ đạo */
+  --color-amethyst-50: #f6f1ff;
+  --color-amethyst-100: #ece2ff;
+  --color-amethyst-200: #d9c6ff;
+  --color-amethyst-300: #bfa0ff;
+  --color-amethyst-400: #a47bff;
+  --color-amethyst-500: #8a55f7;
+  --color-amethyst-600: #7438e6;
+  --color-amethyst-700: #5e28c2;
+  --color-amethyst-800: #4a219a;
+  --color-amethyst-900: #331869;
+
+  /* Orchid – tông nhấn */
+  --color-orchid-300: #f5b3f0;
+  --color-orchid-400: #ec85e4;
+  --color-orchid-500: #d958d0;
+
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-floaty: floaty 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--color-amethyst-200), var(--color-amethyst-400) 45%, var(--color-orchid-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glass {
+  background-color: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.95rem 1.75rem;
+  font-weight: 600;
+  color: #fff;
+  background-image: linear-gradient(100deg, var(--color-amethyst-600), var(--color-amethyst-500) 50%, var(--color-orchid-500));
+  box-shadow: 0 10px 30px -10px rgb(138 85 247 / 0.7);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px -10px rgb(217 88 208 / 0.7);
+  }
+}
+
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.95rem 1.75rem;
+  font-weight: 600;
+  color: var(--color-amethyst-100);
+  border: 1px solid rgb(191 160 255 / 0.3);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  &:hover {
+    background-color: rgb(191 160 255 / 0.08);
+    border-color: rgb(191 160 255 / 0.6);
+  }
+}
+
+@utility orb {
+  filter: blur(90px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+@utility grain {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink-950 font-sans text-amethyst-50/90 antialiased selection:bg-amethyst-500/40;
+  }
+}
+
+/* Phần tử chờ hiệu ứng xuất hiện khi cuộn (do <Reveal> gắn sau khi hydrate) */
+.reveal-pending {
+  opacity: 0;
+}
+
+/* FAQ accordion: mở/đóng mượt bằng grid-template-rows */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.faq-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate__animated,
+  .animate-marquee,
+  .animate-floaty {
+    animation: none !important;
+  }
+}
